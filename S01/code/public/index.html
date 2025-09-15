@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contador de cabinas — S01</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./js/index.js" defer></script>
+</head>
+<body class="bg-gray-50 flex flex-col items-center justify-center min-h-screen">
+  <main class="bg-white border border-gray-200 rounded-xl shadow p-6 space-y-4 w-80 text-center">
+    <h1 class="text-xl font-bold">🛰️ Contador de cabinas</h1>
+
+    <p class="text-gray-600">Cabinas revisadas:</p>
+    <p id="contador" class="text-3xl font-bold text-blue-700">0</p>
+
+    <button id="btnSumar" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+      Revisar cabina
+    </button>
+
+    <button id="btnReset" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+      Reiniciar
+    </button>
+
+    <p id="mensaje" class="text-green-700 font-medium min-h-[1.2em]"></p>
+  </main>
+</body>
+</html>
