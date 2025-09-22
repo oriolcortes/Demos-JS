@@ -3,7 +3,6 @@
 > 📂 **Exercises folder:**  
 > [🔗 Open class exercises](https://github.com/oriolcortes/Exercises-JS/tree/main/sessions/session01)
 
-
 # 🚀 S01 — Fundamentos + DOM inmediato
 
 ## 🌌 Introducción a la temática
@@ -23,6 +22,7 @@ Nuestro primer sistema será **el contador de cabinas revisadas**.
 ## 📚 Contenidos de la sesión
 
 ### 🔧 Fundamentos de JS
+
 - **Variables y tipos de datos**
   - `var`, `let`, `const`
   - Primitivos: `string`, `number`, `boolean`, `null`, `undefined`
@@ -43,6 +43,7 @@ Nuestro primer sistema será **el contador de cabinas revisadas**.
 ---
 
 ### 🖥️ Primer contacto con el DOM
+
 - `document.getElementById()`
 - `element.textContent` vs `element.innerHTML`
 
@@ -59,12 +60,14 @@ Nuestro primer sistema será **el contador de cabinas revisadas**.
 > Cada revisión se registra en el **panel de control**, que muestra el número total de cabinas revisadas.  
 > 
 > Tu tarea es programar ese panel para que:
+> 
 > - Cada vez que pulses el botón de **“Revisar cabina”**, el contador aumente en 1.
 > - El nuevo valor se muestre en la pantalla de control.
 > - Aparezca un **mensaje sencillo** que confirme que se ha revisado una cabina.
 > - Al pulsar el botón de **“Reiniciar”**, el contador vuelva a `0` y el mensaje se borre.
 
 **Reto:**
+
 1. Crear una variable `contador` que empiece en `0`.
 2. Mostrar el valor inicial en el HTML.
 3. Aumentar el contador en `1` al pulsar el botón.
@@ -74,6 +77,7 @@ Nuestro primer sistema será **el contador de cabinas revisadas**.
 ---
 
 ## 🛠️ Preparación
+
 - Crea `index.html` y `script.js`
 - Vincula el JS al HTML con `<script src="script.js"></script>`
 - Usa **Tailwind (CDN)** para estilos simples.
@@ -81,6 +85,7 @@ Nuestro primer sistema será **el contador de cabinas revisadas**.
 ---
 
 ## ✅ Objetivos
+
 - Ver cómo una variable de JS puede cambiar y reflejarse en el HTML.
 - Practicar la suma con `+` y reasignación de variables.
 - Introducir el concepto de eventos (`onclick`).
