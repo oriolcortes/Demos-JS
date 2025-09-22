@@ -1,0 +1,45 @@
+name: 🔄 Sync from template
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * 2"  # Dilluns 05:00 UTC "0 5 * * 1" 
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: template-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      TEMPLATE_REPO: "oriolcortes-template-base/template-base"   # ← canvia-ho
+      TEMPLATE_BRANCH: "main"
+      PR_LABELS: "template-sync,maintenance"
+      PR_TITLE: "chore(template): sync from template"
+      BRANCH_PREFIX: "chore/template-sync"            # usa 'pr_branch_name_prefix'
+
+    steps:
+      - name: Checkout (target repo)
+        uses: actions/checkout@v4
+
+      - name: Sync from template
+        uses: AndreasAugustin/actions-template-sync@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_repo_path: ${{ env.TEMPLATE_REPO }}
+          upstream_branch: ${{ env.TEMPLATE_BRANCH }}
+          pr_labels: ${{ env.PR_LABELS }}
+          pr_title: ${{ env.PR_TITLE }}
+          pr_branch_name_prefix: ${{ env.BRANCH_PREFIX }}
+          pr_body: |
+            This is an automated pull request to synchronize from the template.
+            - Source: ${{ env.TEMPLATE_REPO }}
+            - Branch: ${{ env.TEMPLATE_BRANCH }}
+
+      - name: Done
+        run: echo "PR opened/updated if changes exist."
