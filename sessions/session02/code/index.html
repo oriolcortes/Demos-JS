@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>S02 · Módulo de Combustible</title>
+  <!-- Tailwind CDN solo para estilos -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="./js/index.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+  <main class="max-w-3xl mx-auto p-6 space-y-6">
+    <header class="space-y-1">
+      <h1 class="text-2xl md:text-3xl font-bold">🚀 S02 — Módulo de Combustible</h1>
+      <p class="text-sm text-slate-600">
+        Control de flujo (if/switch, while) · funciones · closure (factory)
+      </p>
+    </header>
+
+    <!-- Panel principal -->
+    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+      <h2 class="text-lg font-semibold">🛢️ Depósito</h2>
+
+      <!-- Métricas -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+          <div class="text-xs text-slate-500">Capacidad máx.</div>
+          <div id="capMax" class="text-lg font-semibold">—</div>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+          <div class="text-xs text-slate-500">Nivel actual</div>
+          <div id="nivel" class="text-lg font-semibold">—</div>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+          <div class="text-xs text-slate-500">Porcentaje</div>
+          <div id="porcentaje" class="text-lg font-semibold">—</div>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+          <div class="text-xs text-slate-500">Estado</div>
+          <div id="estado" class="text-lg font-semibold">—</div>
+        </div>
+      </div>
+
+      <!-- Barra de progreso -->
+      <div class="space-y-2">
+        <div class="flex justify-between text-xs text-slate-500">
+          <span>0</span>
+          <span id="maxLabel">—</span>
+        </div>
+        <div class="h-4 w-full rounded-full bg-slate-200 overflow-hidden">
+          <div id="bar" class="h-4 w-0 bg-emerald-600 transition-all"></div>
+        </div>
+      </div>
+
+      <!-- Mensajes -->
+      <p id="mensaje" class="min-h-[1.25rem] text-sm text-slate-600"></p>
+
+      <!-- Controles -->
+      <div class="flex flex-wrap gap-2">
+        <button id="btnMas10" class="px-3 py-2 rounded-lg border border-emerald-200 hover:bg-emerald-50">+10 (cargar)</button>
+        <button id="btnMenos10" class="px-3 py-2 rounded-lg border border-rose-200 hover:bg-rose-50">−10 (consumir)</button>
+        <button id="btnEmergencia" class="px-3 py-2 rounded-lg border border-amber-200 hover:bg-amber-50">🚨 Emergencia</button>
+        <button id="btnReiniciar" class="px-3 py-2 rounded-lg border border-blue-200 hover:bg-blue-50">🔄 Reiniciar</button>
+      </div>
+    </section>
+
+    <!-- Nota rápida -->
+    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+      <h3 class="font-semibold mb-2">ℹ️ Reglas</h3>
+      <ul class="list-disc pl-6 text-sm text-slate-700 space-y-1">
+        <li>El nivel no puede bajar de <strong>0</strong> ni superar la capacidad máxima.</li>
+        <li>Estado: <strong>VERDE</strong> ≥ 50%, <strong>ÁMBAR</strong> entre 20% y 49%, <strong>ROJO</strong> &lt; 20%.</li>
+        <li>Emergencia consume en pasos hasta llegar a 0.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
