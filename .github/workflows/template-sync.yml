@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # 👇 POSA AQUÍ EL TEU TEMPLATE PÚBLIC CORRECTE (owner/repo)
-      TEMPLATE_REPO: "oriolcortes-template-base/template-base"
+      TEMPLATE_REPO: "oriolcortes/template-base"
       TEMPLATE_BRANCH: "main"
 
       PR_TITLE: "chore(template): sync from template"
