@@ -32,13 +32,13 @@ jobs:
       - name: Sync from template
         uses: AndreasAugustin/actions-template-sync@v2
         with:
-          # ✅ usa els nous inputs; el template és públic, així que el GITHUB_TOKEN ja val
+          # LLEGIR del template (públic) → OK amb GITHUB_TOKEN
           source_gh_token: ${{ secrets.GITHUB_TOKEN }}
-          target_gh_token: ${{ secrets.GITHUB_TOKEN }}
+          # ESCRIURE al repo fill (incloent canvis a .github/workflows) → PAT amb 'workflow'
+          target_gh_token: ${{ secrets.TEMPLATE_SYNC_TOKEN }}
 
-          source_repo_path: ${{ env.TEMPLATE_REPO }}
-          upstream_branch: ${{ env.TEMPLATE_BRANCH }}
-
+          source_repo_path: ${{ env.TEMPLATE_REPO }}   # ex: oriolcortes/template-node-ts
+          upstream_branch: ${{ env.TEMPLATE_BRANCH }}  # ex: main
           pr_title: ${{ env.PR_TITLE }}
           pr_labels: ${{ env.PR_LABELS }}
           pr_branch_name_prefix: ${{ env.BRANCH_PREFIX }}
