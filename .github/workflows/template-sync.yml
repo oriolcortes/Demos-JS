@@ -1,9 +1,11 @@
 name: 🔄 Sync from template
 
 on:
+  # Permite ejecutar manualmente desde la pestaña "Actions"
   workflow_dispatch:
-  schedule:
-    - cron: "0 5 * * 2"  # Dimarts 05:00 UTC
+  # Programación automática: cada martes a las 05:00 UTC
+  # schedule:
+  #   - cron: "0 5 * * 2"
 
 permissions:
   contents: write
@@ -16,41 +18,50 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     env:
+      # 👇 CAMBIA por tu repositorio template (owner/repo)
       TEMPLATE_REPO: "oriolcortes/template-base"
       TEMPLATE_BRANCH: "main"
+
+      # Metadatos del PR (Conventional Commits)
       PR_TITLE: "chore(template): sync from template"
       PR_LABELS: "template-sync,maintenance"
       BRANCH_PREFIX: "chore/template-sync"
 
     steps:
-      - name: Checkout (target repo) SENSE credencials
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false  # <- clau
-
-      - name: Check PAT presence
+      # 0) Verificar que el secret TEMPLATE_SYNC_TOKEN existe
+      - name: Verificar existencia del secret
         run: |
           if [ -z "${{ secrets.TEMPLATE_SYNC_TOKEN }}" ]; then
-            echo "PAT secret is MISSING"; exit 1;
+            echo "❌ ERROR: El secret 'TEMPLATE_SYNC_TOKEN' no está definido en este repositorio."
+            echo "Ve a Settings → Secrets and variables → Actions y crea un secret con ese nombre que contenga tu PAT."
+            exit 1
           else
-            echo "PAT secret is PRESENT";
+            echo "✅ Secret TEMPLATE_SYNC_TOKEN detectado correctamente."
           fi
 
-      - name: Forçar git a usar el PAT per a github.com
+      # 1) Checkout del repo destino SIN credenciales
+      - name: Checkout (repo destino) sin credenciales
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      # 2) Configurar git para usar el PAT en todas las operaciones de push/fetch
+      - name: Configurar git para usar el PAT
         run: |
           git config --global url."https://x-access-token:${{ secrets.TEMPLATE_SYNC_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
-      - name: Sync from template (PAT al target)
+      # 3) Ejecutar la acción de sincronización
+      - name: Sincronizar desde el template
         uses: AndreasAugustin/actions-template-sync@v2
         with:
-          # Llegeix de l’origen públic
           source_gh_token: ${{ secrets.GITHUB_TOKEN }}
-          # Escriu al destí (incloent .github/workflows/**) amb PAT
           target_gh_token: ${{ secrets.TEMPLATE_SYNC_TOKEN }}
 
           source_repo_path: ${{ env.TEMPLATE_REPO }}
           upstream_branch: ${{ env.TEMPLATE_BRANCH }}
+
           pr_title: ${{ env.PR_TITLE }}
           pr_labels: ${{ env.PR_LABELS }}
           pr_branch_name_prefix: ${{ env.BRANCH_PREFIX }}
@@ -58,3 +69,7 @@ jobs:
             This is an automated pull request to synchronize from the template.
             - Source: ${{ env.TEMPLATE_REPO }}
             - Branch: ${{ env.TEMPLATE_BRANCH }}
+
+      # 4) Mensaje final
+      - name: Fin
+        run: echo "Si hay cambios, se ha abierto o actualizado un PR de sincronización."
