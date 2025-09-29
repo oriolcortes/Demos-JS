@@ -1,0 +1,49 @@
+name: 🔄 Sync from template
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * 2"  # Dimarts 05:00 UTC
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: template-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      # 👇 CANVIA AQUI l’origen (owner/repo) i branca
+      TEMPLATE_REPO: "oriolcortes/template-base"
+      TEMPLATE_BRANCH: "main"
+
+      PR_TITLE: "chore(template): sync from template"
+      PR_LABELS: "template-sync,maintenance"
+      BRANCH_PREFIX: "chore/template-sync"
+
+    steps:
+      - name: Checkout (target repo)
+        uses: actions/checkout@v4
+
+      - name: Sync from template
+        uses: AndreasAugustin/actions-template-sync@v2
+        with:
+          # LLEGIR de l’origen públic → GITHUB_TOKEN va bé
+          source_gh_token: ${{ secrets.GITHUB_TOKEN }}
+          # ESCRIURE al destí (incloent .github/workflows) → cal PAT amb workflow
+          target_gh_token: ${{ secrets.TEMPLATE_SYNC_TOKEN }}
+
+          source_repo_path: ${{ env.TEMPLATE_REPO }}
+          upstream_branch: ${{ env.TEMPLATE_BRANCH }}
+
+          pr_title: ${{ env.PR_TITLE }}
+          pr_labels: ${{ env.PR_LABELS }}
+          pr_branch_name_prefix: ${{ env.BRANCH_PREFIX }}
+          pr_body: |
+            This is an automated pull request to synchronize from the template.
+            - Source: ${{ env.TEMPLATE_REPO }}
+            - Branch: ${{ env.TEMPLATE_BRANCH }}
