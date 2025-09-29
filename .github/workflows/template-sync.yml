@@ -29,6 +29,14 @@ jobs:
       - name: Checkout (target repo)
         uses: actions/checkout@v4
 
+      - name: Check PAT presence
+        run: |
+          if [ -z "${{ secrets.TEMPLATE_SYNC_TOKEN }}" ]; then
+            echo "PAT secret is MISSING"; exit 1;
+          else
+            echo "PAT secret is PRESENT";
+          fi
+
       - name: Sync from template
         uses: AndreasAugustin/actions-template-sync@v2
         with:
